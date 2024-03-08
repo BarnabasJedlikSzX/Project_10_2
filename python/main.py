@@ -1,0 +1,1 @@
+from osztaly import Tarskereso
