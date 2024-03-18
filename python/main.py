@@ -1,5 +1,5 @@
 from osztaly import Tarskereso
-from login import login
+from login import *
 from random import randint
 import os
 
@@ -7,12 +7,18 @@ emberek: list[Tarskereso] = []
 
 def main():
     beolvasas()
-    nev = login()
+    valasztas = ''
+    while valasztas != 'B' and valasztas != 'R':
+        valasztas = input('Bejelentkezés(B) / Regisztráció(R): ')
+    if valasztas == 'B':
+        login()
+    else:
+        regisztracio()
     kilep = False
     index = 0
     bejelentkezve: Tarskereso = None
     for e in emberek:
-        if e.felhasznalonev == nev:
+        if e.felhasznalonev == login.nev:
             bejelentkezve = e
             break 
     while not kilep:
@@ -61,4 +67,4 @@ def randomolas():
         f.write(f'{vezeteknevek[i]};{keresztnevek[i]};{korok[i]};{tavolsagok[i]};{nemek[i]};{keresett_nemek[i]};{max(18, int(korok[i])-7)};{min(70, int(korok[i])+7)};{keresztnevek[i]};{keresztnevek[i].lower()}123\n')
     
 
-randomolas()
+main()

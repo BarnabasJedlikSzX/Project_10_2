@@ -1,4 +1,4 @@
-from Tarskererso import Tarskereso
+from osztaly import Tarskereso
 import os
 from random import randint
 
