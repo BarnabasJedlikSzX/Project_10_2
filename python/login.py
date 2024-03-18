@@ -1,18 +1,40 @@
-from Tarskererso import Tarskereso
+from osztaly import Tarskereso
 import os
 from random import randint
 
 userAdatok = []
+login: Tarskereso = None
 
 def login():
-    print('\nFelhasználónév')
+    global login
+    # print('\nFelhasználónév')
     # print('-----------------')
-    nev = input('')
+    nev = input('Felhasználónév: ')
     # print('-----------------')
-    print('\nJelszó')
+    # print('\nJelszó')
     # print('-----------------')
-    jelszo = ('Jelszó: ')
+    jelszo = input('Jelszó: ')
     # print('-----------------')
+    f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv','r', encoding = 'utf-8')
+    f.readline()
+    van = False
+    for sor in f:
+        login = Tarskereso(sor)
+        if login.felhasznalonev == nev and login.jelszo == jelszo:
+            print('Sikeres belépés')
+            input('<ENTER>')
+            van = True
+            break
+        if login.felhasznalonev == nev and login.jelszo != jelszo:
+            print('Hibás jelszó')
+            input('<ENTER>')
+            login()
+    if not van:
+        print('Nincs ilyen felhasználó')
+        input('<ENTER>')
+        login()
+    
+
 
 def regisztracio():
     global userAdatok
@@ -43,15 +65,6 @@ def regisztracio():
     keresettNem = input('\tKeresett nem: ')
     # lakhely = input('\tLakhely (Város): ')
     tavolsagToled = randint(1, 100)
-    '''
-    userAdatok += vezeteknev
-    userAdatok += keresztnev
-    userAdatok += str(kor)
-    userAdatok += str(tavolsagToled)
-    userAdatok += nem
-    userAdatok += keresettNem
-    userAdatok += tavolsagToled
-    '''
     userAdatok.append(vezeteknev)
     userAdatok.append(keresztnev)
     userAdatok.append(str(kor))
@@ -62,10 +75,8 @@ def regisztracio():
     userAdatok.append(keresettKorFelso)
     userAdatok.append(felhasznalonev)
     userAdatok.append(jelszo)
-    # userAdatok += lakhely
-    f = open('szingli_anyukak_es_apukak_es_gyerekek.csv','w', encoding = 'utf-8')
-    for sor in userAdatok:
-        f.write(f'{userAdatok[0]};{userAdatok[1]};{userAdatok[2]};{userAdatok[3]};{userAdatok[4]};{userAdatok[5]};{userAdatok[6]};{userAdatok[7]};{userAdatok[8]};{userAdatok[9]}\n')
+    f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv','w', encoding = 'utf-8')
+    f.write(f'{userAdatok[0]};{userAdatok[1]};{userAdatok[2]};{userAdatok[3]};{userAdatok[4]};{userAdatok[5]};{userAdatok[6]};{userAdatok[7]};{userAdatok[8]};{userAdatok[9]}\n')
     f.close()
     userAdatok.clear()
     input('<ENTER>')
