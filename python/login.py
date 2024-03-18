@@ -1,8 +1,8 @@
-from osztaly import Tarskereso
+from Tarskererso import Tarskereso
 import os
 from random import randint
 
-userAdatok: str = ''
+userAdatok = []
 
 def login():
     print('\nFelhasználónév')
@@ -21,6 +21,12 @@ def regisztracio():
     vezeteknev = input('\tVezetéknév: ')
     keresztnev = input('\tKeresztnév: ')
     felhasznalonev = input('\tFelhasználónév: ')
+    jelszo = input('\tJelszó: ')
+    jelszo2 = input('\tJelszó mégegyszer: ')
+    while jelszo != jelszo2:
+        print('\tA két jelszó nem egyezik.')
+        jelszo = input('\tJelszó: ')
+        jelszo2 = input('\tJelszó mégegyszer: ')
     kor = int(input('\tKor: '))
     while kor < 18:
         print('\tA program használatához legalább 18 évesnek kell lennie.')
@@ -35,14 +41,34 @@ def regisztracio():
         keresettKorAlso = int(input('\tKeresett kor (alsó határ, min. 18): '))
     keresettKorFelso = (input('\tKeresett kor (felső határ): '))
     keresettNem = input('\tKeresett nem: ')
-    lakhely = input('\tLakhely (Város): ')
+    # lakhely = input('\tLakhely (Város): ')
     tavolsagToled = randint(1, 100)
+    '''
     userAdatok += vezeteknev
     userAdatok += keresztnev
     userAdatok += str(kor)
     userAdatok += str(tavolsagToled)
     userAdatok += nem
     userAdatok += keresettNem
+    userAdatok += tavolsagToled
+    '''
+    userAdatok.append(vezeteknev)
+    userAdatok.append(keresztnev)
+    userAdatok.append(str(kor))
+    userAdatok.append(str(tavolsagToled))
+    userAdatok.append(nem)
+    userAdatok.append(keresettNem)
+    userAdatok.append(keresettKorAlso)
+    userAdatok.append(keresettKorFelso)
+    userAdatok.append(felhasznalonev)
+    userAdatok.append(jelszo)
+    # userAdatok += lakhely
+    f = open('szingli_anyukak_es_apukak_es_gyerekek.csv','w', encoding = 'utf-8')
+    for sor in userAdatok:
+        f.write(f'{userAdatok[0]};{userAdatok[1]};{userAdatok[2]};{userAdatok[3]};{userAdatok[4]};{userAdatok[5]};{userAdatok[6]};{userAdatok[7]};{userAdatok[8]};{userAdatok[9]}\n')
+    f.close()
+    userAdatok.clear()
+    input('<ENTER>')
     
 
 
