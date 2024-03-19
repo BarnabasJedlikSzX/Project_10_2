@@ -97,6 +97,15 @@ def regisztracio():
     input('<ENTER>')
     
 
+def hasheles():
+    f = open('python/login.csv', 'w', encoding='utf-8')
+    for sor in f:
+        hashelt = Data(sor).jelszo
+        rejtett = hash(hashelt)
+        f.write(f'{Data(sor).felhasznalonev};{rejtett}\n')
+    f.close()
+    print('Kész')
+hasheles()
 
 
 main()

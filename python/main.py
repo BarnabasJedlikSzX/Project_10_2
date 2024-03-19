@@ -1,27 +1,57 @@
 from osztaly import Tarskereso
-from login import login
+from login import *
 from random import randint
 import os
 
 emberek: list[Tarskereso] = []
 
+
 def main():
     beolvasas()
-    nev = login()
+    valasztas = ''
+    while valasztas != 'B' and valasztas != 'R':
+        valasztas = input('Bejelentkezés(B) / Regisztráció(R): ')
+    if valasztas == 'B':
+        login()
+    else:
+        regisztracio()
     kilep = False
-    index = 0
     bejelentkezve: Tarskereso = None
     for e in emberek:
-        if e.felhasznalonev == nev:
+        if e.felhasznalonev == login.felhasznalonev:
             bejelentkezve = e
             break 
+    index = 0
+    volt = False
+    valasztas = ''
     while not kilep:
         kovetkezo = emberek[index]
-        if lehet(kovetkezo, bejelentkezve):     # felajánlhatja az embert
+        while not lehet(kovetkezo, bejelentkezve) and index < len(emberek)-1:
+            index += 1
+            kovetkezo = emberek[index]
+        if index == len(emberek)-1 and valasztas == '':
+            print('Sajnos nincs számodra megfelelő felhasználó :(')
+            kilep = True
+        elif index == len(emberek)-1 and valasztas != '':
+            index = 0
+        else:
+            volt = True
+            index += 1
             os.system('cls')
             print(f'{kovetkezo.vezeteknev} {kovetkezo.keresztnev}')
             print(f'Kor: {kovetkezo.kor}')
             print(f'Távolság tőled: {kovetkezo.tavolsag_toled} km')
+            valasztas = input('\nBalra húz(B) / Jobbra húz(J) / Kilép(K): ')
+            while valasztas != 'B' and valasztas != 'J' and valasztas != 'K':
+                valasztas = input('\nBalra húz(B) / Jobbra húz(J) / Kilép(K): ')
+            if valasztas == 'K':
+                kilep = True
+            elif valasztas == 'B':
+                pass
+            else:
+                pass
+            
+        
             
 
     
@@ -34,7 +64,7 @@ def beolvasas():
     f.close()
 
 def lehet(szemely: Tarskereso, jelenlegi: Tarskereso):
-    if szemely == jelenlegi or jelenlegi.keresett_nem != szemely.nem or jelenlegi.keresett_kor_also_hatar < szemely.kor or jelenlegi.keresett_kor_felso_hatar > szemely.kor:
+    if szemely == jelenlegi or jelenlegi.keresett_nem != szemely.nem or jelenlegi.keresett_kor_also_hatar > szemely.kor or jelenlegi.keresett_kor_felso_hatar < szemely.kor:
         return False
     return True
 
@@ -61,4 +91,4 @@ def randomolas():
         f.write(f'{vezeteknevek[i]};{keresztnevek[i]};{korok[i]};{tavolsagok[i]};{nemek[i]};{keresett_nemek[i]};{max(18, int(korok[i])-7)};{min(70, int(korok[i])+7)};{keresztnevek[i]};{keresztnevek[i].lower()}123\n')
     
 
-randomolas()
+main()
