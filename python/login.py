@@ -1,11 +1,21 @@
-from osztaly import Tarskereso
+from loginAdatok import Data
 import os
 from random import randint
+import pwinput
 
 userAdatok = []
-login: Tarskereso = None
+login: Data = None
+
+def main():
+    v = input()
+    match v:
+        case '1':
+            login()
+        case '2':
+            regisztracio()
 
 def login():
+    os.system('cls')
     global login
     # print('\nFelhasználónév')
     # print('-----------------')
@@ -13,23 +23,24 @@ def login():
     # print('-----------------')
     # print('\nJelszó')
     # print('-----------------')
-    jelszo = input('Jelszó: ')
+    jelszo = pwinput.pwinput(prompt='Jelszó: ', mask='*')
     # print('-----------------')
-    f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv','r', encoding = 'utf-8')
-    f.readline()
+    f = open('jelszavak.csv', 'r', encoding = 'utf-8')
     van = False
     for sor in f:
-        login = Tarskereso(sor)
-        if login.felhasznalonev == nev and login.jelszo == jelszo:
+        loginAdatok = Data(sor)
+        if loginAdatok.felhasznalonev == nev and loginAdatok.jelszo == jelszo:
             print('Sikeres belépés')
             input('<ENTER>')
             van = True
             break
-        if login.felhasznalonev == nev and login.jelszo != jelszo:
+        if loginAdatok.felhasznalonev == nev and loginAdatok.jelszo != jelszo:
+            os.system('cls')
             print('Hibás jelszó')
             input('<ENTER>')
             login()
     if not van:
+        os.system('cls')
         print('Nincs ilyen felhasználó')
         input('<ENTER>')
         login()
@@ -49,6 +60,7 @@ def regisztracio():
         print('\tA két jelszó nem egyezik.')
         jelszo = input('\tJelszó: ')
         jelszo2 = input('\tJelszó mégegyszer: ')
+    rejtettJelszo = hash(jelszo)
     kor = int(input('\tKor: '))
     while kor < 18:
         print('\tA program használatához legalább 18 évesnek kell lennie.')
@@ -73,15 +85,18 @@ def regisztracio():
     userAdatok.append(keresettNem)
     userAdatok.append(keresettKorAlso)
     userAdatok.append(keresettKorFelso)
-    userAdatok.append(felhasznalonev)
-    userAdatok.append(jelszo)
+    # userAdatok.append(felhasznalonev)
+    # userAdatok.append(jelszo)
     f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv','w', encoding = 'utf-8')
-    f.write(f'{userAdatok[0]};{userAdatok[1]};{userAdatok[2]};{userAdatok[3]};{userAdatok[4]};{userAdatok[5]};{userAdatok[6]};{userAdatok[7]};{userAdatok[8]};{userAdatok[9]}\n')
+    f.write(f'{userAdatok[0]};{userAdatok[1]};{userAdatok[2]};{userAdatok[3]};{userAdatok[4]};{userAdatok[5]};{userAdatok[6]};{userAdatok[7]}\n')
     f.close()
     userAdatok.clear()
+    f = open('login.csv', 'w', encoding = 'utf-8')
+    f.write(f'{felhasznalonev};{rejtettJelszo}\n')
+    f.close()
     input('<ENTER>')
     
 
 
 
-regisztracio()
+main()
