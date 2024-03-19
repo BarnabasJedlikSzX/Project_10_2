@@ -22,8 +22,42 @@ def main():
             bejelentkezve = e
             break 
     index = 0
-    volt = False
     valasztas = ''
+    
+    print('Opciók: ')
+    print('\t1.: Emberek böngészése')
+    print('\t2.: Szűrők változtatása')
+    print('\t3.: Kilépés')
+    opcio = input('Választásom: ')
+    while opcio != '1' and opcio != '2' and opcio != '3':
+        opcio = input('Választásom')
+    match opcio:
+        case '1':
+            emberek_ajanlasa(bejelentkezve)
+        case '2':
+            pass
+        case '3':
+            pass
+            
+        
+            
+
+
+
+
+def beolvasas():
+    f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv', 'r', encoding='utf-8')
+    for sor in f:
+        emberek.append(Tarskereso(sor))
+    f.close()
+
+def lehet(szemely: Tarskereso, jelenlegi: Tarskereso):
+    if szemely == jelenlegi or jelenlegi.keresett_nem != szemely.nem or jelenlegi.keresett_kor_also_hatar > szemely.kor or jelenlegi.keresett_kor_felso_hatar < szemely.kor:
+        return False
+    return True
+
+def emberek_ajanlasa(bejelentkezve: Tarskereso):
+    kilep = False
     while not kilep:
         kovetkezo = emberek[index]
         while not lehet(kovetkezo, bejelentkezve) and index < len(emberek)-1:
@@ -35,7 +69,6 @@ def main():
         elif index == len(emberek)-1 and valasztas != '':
             index = 0
         else:
-            volt = True
             index += 1
             os.system('cls')
             print(f'{kovetkezo.vezeteknev} {kovetkezo.keresztnev}')
@@ -52,21 +85,6 @@ def main():
                 pass
             
         
-            
-
-    
-
-
-def beolvasas():
-    f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv', 'r', encoding='utf-8')
-    for sor in f:
-        emberek.append(Tarskereso(sor))
-    f.close()
-
-def lehet(szemely: Tarskereso, jelenlegi: Tarskereso):
-    if szemely == jelenlegi or jelenlegi.keresett_nem != szemely.nem or jelenlegi.keresett_kor_also_hatar > szemely.kor or jelenlegi.keresett_kor_felso_hatar < szemely.kor:
-        return False
-    return True
 
 def randomolas():
     f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv', 'r', encoding='utf-8')
