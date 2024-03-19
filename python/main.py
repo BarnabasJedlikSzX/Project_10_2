@@ -5,6 +5,7 @@ import os
 
 emberek: list[Tarskereso] = []
 
+
 def main():
     beolvasas()
     valasztas = ''
@@ -15,19 +16,42 @@ def main():
     else:
         regisztracio()
     kilep = False
-    index = 0
     bejelentkezve: Tarskereso = None
     for e in emberek:
-        if e.felhasznalonev == login.nev:
+        if e.felhasznalonev == login.felhasznalonev:
             bejelentkezve = e
             break 
+    index = 0
+    volt = False
+    valasztas = ''
     while not kilep:
         kovetkezo = emberek[index]
-        if lehet(kovetkezo, bejelentkezve):     # felajánlhatja az embert
+        while not lehet(kovetkezo, bejelentkezve) and index < len(emberek)-1:
+            index += 1
+            kovetkezo = emberek[index]
+        if index == len(emberek)-1 and valasztas == '':
+            print('Sajnos nincs számodra megfelelő felhasználó :(')
+            kilep = True
+        elif index == len(emberek)-1 and valasztas != '':
+            index = 0
+        else:
+            volt = True
+            index += 1
             os.system('cls')
             print(f'{kovetkezo.vezeteknev} {kovetkezo.keresztnev}')
             print(f'Kor: {kovetkezo.kor}')
             print(f'Távolság tőled: {kovetkezo.tavolsag_toled} km')
+            valasztas = input('\nBalra húz(B) / Jobbra húz(J) / Kilép(K): ')
+            while valasztas != 'B' and valasztas != 'J' and valasztas != 'K':
+                valasztas = input('\nBalra húz(B) / Jobbra húz(J) / Kilép(K): ')
+            if valasztas == 'K':
+                kilep = True
+            elif valasztas == 'B':
+                pass
+            else:
+                pass
+            
+        
             
 
     
@@ -40,7 +64,7 @@ def beolvasas():
     f.close()
 
 def lehet(szemely: Tarskereso, jelenlegi: Tarskereso):
-    if szemely == jelenlegi or jelenlegi.keresett_nem != szemely.nem or jelenlegi.keresett_kor_also_hatar < szemely.kor or jelenlegi.keresett_kor_felso_hatar > szemely.kor:
+    if szemely == jelenlegi or jelenlegi.keresett_nem != szemely.nem or jelenlegi.keresett_kor_also_hatar > szemely.kor or jelenlegi.keresett_kor_felso_hatar < szemely.kor:
         return False
     return True
 
