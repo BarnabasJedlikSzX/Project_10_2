@@ -1,5 +1,5 @@
 from osztaly import Tarskereso
-from login import *
+#from login import *
 from random import randint
 import os
 
@@ -8,17 +8,18 @@ emberek: list[Tarskereso] = []
 
 def main():
     beolvasas()
-    valasztas = ''
+    '''valasztas = ''
     while valasztas != 'B' and valasztas != 'R':
         valasztas = input('Bejelentkezés(B) / Regisztráció(R): ')
     if valasztas == 'B':
         login()
     else:
-        regisztracio()
+        regisztracio()'''
+    felhasznalonev = input()
     kilep = False
     bejelentkezve: Tarskereso = None
     for e in emberek:
-        if e.felhasznalonev == login.felhasznalonev:
+        if e.felhasznalonev == felhasznalonev:
             bejelentkezve = e
             break 
     index = 0
@@ -108,5 +109,12 @@ def randomolas():
 
         f.write(f'{vezeteknevek[i]};{keresztnevek[i]};{korok[i]};{tavolsagok[i]};{nemek[i]};{keresett_nemek[i]};{max(18, int(korok[i])-7)};{min(70, int(korok[i])+7)};{keresztnevek[i]};{keresztnevek[i].lower()}123\n')
     
+def login_feltoltes():
+    f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv', 'r', encoding='utf-8')
+    f2 = open('python/login.csv', 'w', encoding='utf-8')
+    for sor in f:
+        f2.write(f'{Tarskereso(sor).keresztnev};{Tarskereso(sor).keresztnev.lower()}123\n')
 
-main()
+# main()
+        
+login_feltoltes()
