@@ -15,11 +15,11 @@ def main():
         login()
     else:
         regisztracio()'''
-    felhasznalonev = input()
+    nev = input()
     kilep = False
     bejelentkezve: Tarskereso = None
     for e in emberek:
-        if e.felhasznalonev == felhasznalonev:
+        if e.keresztnev == nev:      # visszaállítani login.felhasznalonev-re és e.felhasznalonev-re
             bejelentkezve = e
             break 
     index = 0
@@ -36,7 +36,7 @@ def main():
         case '1':
             emberek_ajanlasa(bejelentkezve)
         case '2':
-            pass
+            szures(bejelentkezve)
         case '3':
             pass
             
@@ -59,6 +59,7 @@ def lehet(szemely: Tarskereso, jelenlegi: Tarskereso):
 
 def emberek_ajanlasa(bejelentkezve: Tarskereso):
     kilep = False
+    index = 0
     while not kilep:
         kovetkezo = emberek[index]
         while not lehet(kovetkezo, bejelentkezve) and index < len(emberek)-1:
@@ -84,6 +85,20 @@ def emberek_ajanlasa(bejelentkezve: Tarskereso):
                 pass
             else:
                 pass
+
+
+def szures(ember: Tarskereso):
+    os.system('cls')
+    print('Válassza ki, mit szeretne MÓDOSítani:')
+    print(f'\t1.: Keresett kor alsó határ (jelenlegi: {ember.keresett_kor_also_hatar} év)')
+    print(f'\t2.: Keresett kor felső határ (jelenlegi: {ember.keresett_kor_felso_hatar})')
+    print(f'\t3.: Minimális gyerekszám (jelenlegi: {ember.keresett_gyerek_also_hatar})')
+    print(f'\t4.: Maximális gyerekszám (jelenlegi: {ember.keresett_gyerek_felso_hatar})')
+    valasztas = input('Választásom: ')
+    while valasztas != '1' and valasztas != '2' and valasztas != '3' and valasztas != '4':
+        valasztas = input('Választásom: ')
+    
+        
             
         
 
@@ -106,8 +121,14 @@ def randomolas():
     f.close()
     f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv', 'w', encoding='utf-8')
     for i in range(0, 50):
+        if int(korok[i]) > 25:
+            gyerekek = randint(1, 4)
+        else:
+            gyerekek = 0
+        keresett_also = randint(0, 4)
+        keresett_felso = randint(keresett_also, 4)
 
-        f.write(f'{vezeteknevek[i]};{keresztnevek[i]};{korok[i]};{tavolsagok[i]};{nemek[i]};{keresett_nemek[i]};{max(18, int(korok[i])-7)};{min(70, int(korok[i])+7)};{keresztnevek[i]};{keresztnevek[i].lower()}123\n')
+        f.write(f'{vezeteknevek[i]};{keresztnevek[i]};{korok[i]};{tavolsagok[i]};{nemek[i]};{keresett_nemek[i]};{max(18, int(korok[i])-7)};{min(70, int(korok[i])+7)};{gyerekek};{randint(1, 4)};\n')
     
 def login_feltoltes():
     f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv', 'r', encoding='utf-8')
@@ -115,6 +136,4 @@ def login_feltoltes():
     for sor in f:
         f2.write(f'{Tarskereso(sor).keresztnev};{Tarskereso(sor).keresztnev.lower()}123\n')
 
-# main()
-        
-login_feltoltes()
+main()      
