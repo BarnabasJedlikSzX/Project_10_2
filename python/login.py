@@ -14,6 +14,8 @@ def main():
             login()
         case '2':
             regisztracio()
+        case '3':
+            login_feltoltes()
 
 def login():
     os.system('cls')
@@ -98,7 +100,7 @@ def regisztracio():
     input('<ENTER>')
     
 
-'''
+
 def login_feltoltes():
     f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv', 'r', encoding='utf-8')
     f2 = open('python/login.csv', 'w', encoding='utf-8')
@@ -106,6 +108,6 @@ def login_feltoltes():
     for sor in f:
         hashelt = hash(f'{Tarskereso(sor).keresztnev.lower()}123')
         f2.write(f'{Tarskereso(sor).keresztnev};{hashelt}\n')
-'''
+
 
 main()
