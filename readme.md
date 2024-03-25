@@ -4,3 +4,11 @@
 - Barni: Rólunk
 
 # Python
+- Zsombi:
+  - login
+  - regisztráció
+- Gábor:
+  - alkalmazás menete
+  - fájlba írás, fájlból olvasás
+- Barni:
+  - match-elés
