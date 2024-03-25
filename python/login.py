@@ -1,3 +1,4 @@
+from osztaly import Tarskereso
 from loginAdatok import Data
 import os
 from random import randint
@@ -13,6 +14,8 @@ def main():
             login()
         case '2':
             regisztracio()
+        case '3':
+            login_feltoltes()
 
 def login():
     os.system('cls')
@@ -97,15 +100,14 @@ def regisztracio():
     input('<ENTER>')
     
 
-def hasheles():
-    f = open('python/login.csv', 'w', encoding='utf-8')
+
+def login_feltoltes():
+    f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv', 'r', encoding='utf-8')
+    f2 = open('python/login.csv', 'w', encoding='utf-8')
+    hashelt = None
     for sor in f:
-        hashelt = Data(sor).jelszo
-        rejtett = hash(hashelt)
-        f.write(f'{Data(sor).felhasznalonev};{rejtett}\n')
-    f.close()
-    print('Kész')
-hasheles()
+        hashelt = hash(f'{Tarskereso(sor).keresztnev.lower()}123')
+        f2.write(f'{Tarskereso(sor).keresztnev};{hashelt}\n')
 
 
 main()
