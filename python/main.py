@@ -1,4 +1,4 @@
-from osztaly import Tarskereso
+from osztalyok import *
 # from login import *
 from random import randint
 import os
@@ -29,15 +29,18 @@ def main():
         print('Opciók: ')
         print('\t1.: Emberek böngészése')
         print('\t2.: Szűrők változtatása')
+        print('\t3.: Matchek megnézése')
         print('\t0.: Kilépés')
         opcio = input('Választásom: ')
-        while opcio != '1' and opcio != '2' and opcio != '0':
+        while opcio != '1' and opcio != '2' and opcio != '3' and opcio != '0':
             opcio = input('Választásom: ')
         match opcio:
             case '1':
-                emberek_ajanlasa(emberek[bejelentkezve_index])
+                emberek_ajanlasa(emberek[bejelentkezve_index], bejelentkezve_index)
             case '2':
                 szures(bejelentkezve_index)
+            case '3':
+                matcheim(bejelentkezve_index)
             case '0':
                 pass
             
@@ -53,12 +56,21 @@ def beolvasas():
         emberek.append(Tarskereso(sor))
     f.close()
 
+
+
 def lehet(szemely: Tarskereso, jelenlegi: Tarskereso):
     if szemely == jelenlegi or jelenlegi.keresett_nem != szemely.nem or jelenlegi.keresett_kor_also_hatar > szemely.kor or jelenlegi.keresett_kor_felso_hatar < szemely.kor:
         return False
     return True
 
-def emberek_ajanlasa(bejelentkezve: Tarskereso):
+
+
+def emberek_ajanlasa(bejelentkezve: Tarskereso, bejelentkezve_index: int):
+    f = open('matching.csv', 'r', encoding='utf-8')
+    jobbra_huzottak: Match = []
+    for sor in f:
+        jobbra_huzottak.append(Match(sor))
+    f.close()
     kilep = False
     index = 0
     van_ember = False
@@ -81,13 +93,20 @@ def emberek_ajanlasa(bejelentkezve: Tarskereso):
             print(f'Kor: {kovetkezo.kor}')
             print(f'Távolság tőled: {kovetkezo.tavolsag_toled} km')
             print(f'Gyerekek száma: {kovetkezo.gyerekek}')
-            valasztas = input('\nBalra húz(B) / Jobbra húz(J) / Kilép(K): ')
-            while valasztas != 'B' and valasztas != 'J' and valasztas != 'K':
-                valasztas = input('\nBalra húz(B) / Jobbra húz(J) / Kilép(K): ')
-            if valasztas == 'K':
+            valasztas = input('\nBalra húz(B/b) / Jobbra húz(J/j) / Kilép(K/k): ').lower()
+            while valasztas != 'b' and valasztas != 'j' and valasztas != 'k':
+                valasztas = input('\nBalra húz(B) / Jobbra húz(J) / Kilép(K): ').lower()
+            if valasztas == 'k':
                 kilep = True
-            elif valasztas == 'J':
-                pass
+            elif valasztas == 'j':
+                jobbra_huzottak[bejelentkezve_index].jobbra_huzottak.append(index)
+            else:
+                jobbra_huzottak[bejelentkezve_index].jobbra_huzottak.remove(index)
+    
+
+
+
+
 
 def szures(index: int):
     valasztas = ''
@@ -127,7 +146,11 @@ def szures(index: int):
     kiiras()
 
     
-        
+def matcheim(bejelentkezve_index: int):
+    f = open('python/matching.csv', 'r', encoding = 'utf-8')
+    for sor in f:
+        pass
+    f.close()
             
         
 
@@ -172,5 +195,12 @@ def login_feltoltes():
     f2 = open('python/login.csv', 'w', encoding='utf-8')
     for sor in f:
         f2.write(f'{Tarskereso(sor).keresztnev};{Tarskereso(sor).keresztnev.lower()}123\n')
+
+
+def matching_feltoltes():
+    f = open('python/matching.csv', 'w', encoding='utf-8')
+    for e in emberek:
+        f.write(f'{e.vezeteknev};{e.keresztnev};\n')
+    f.close()
 
 main()
