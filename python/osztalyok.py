@@ -12,3 +12,11 @@ class Tarskereso:
         self.gyerekek = int(adatok[8])
         self.keresett_gyerek_felso_hatar = int(adatok[9])
         self.keresett_gyerek_also_hatar = int(adatok[10])
+
+class Match:
+    def __init__(self,sor:str):
+        adatok = sor.strip().split(';')
+        self.vezeteknev = adatok[0]
+        self.keresztnev = adatok[1]
+        self.jobbra_huzottak = adatok[2].strip().split(',')
+        

@@ -4,6 +4,7 @@ from random import randint
 import os
 
 emberek: list[Tarskereso] = []
+matching: list[Match] = []
 
 
 def main():
@@ -55,6 +56,10 @@ def beolvasas():
     for sor in f:
         emberek.append(Tarskereso(sor))
     f.close()
+    f = open('python/matching.csv', 'r', encoding='utf-8')
+    for sor in f:
+        matching.append(Match(sor))
+    f.close()
 
 
 
@@ -66,11 +71,6 @@ def lehet(szemely: Tarskereso, jelenlegi: Tarskereso):
 
 
 def emberek_ajanlasa(bejelentkezve: Tarskereso, bejelentkezve_index: int):
-    f = open('matching.csv', 'r', encoding='utf-8')
-    jobbra_huzottak: Match = []
-    for sor in f:
-        jobbra_huzottak.append(Match(sor))
-    f.close()
     kilep = False
     index = 0
     van_ember = False
@@ -99,10 +99,13 @@ def emberek_ajanlasa(bejelentkezve: Tarskereso, bejelentkezve_index: int):
             if valasztas == 'k':
                 kilep = True
             elif valasztas == 'j':
-                jobbra_huzottak[bejelentkezve_index].jobbra_huzottak.append(index)
+                if str(index) not in matching[bejelentkezve_index].jobbra_huzottak:
+                    matching[bejelentkezve_index].jobbra_huzottak.append(str(index))
             else:
-                jobbra_huzottak[bejelentkezve_index].jobbra_huzottak.remove(index)
+                if str(index) in matching[bejelentkezve_index].jobbra_huzottak:
+                    matching[bejelentkezve_index].jobbra_huzottak.remove(str(index))
     
+    matching_frissites(bejelentkezve)
 
 
 
@@ -145,12 +148,39 @@ def szures(index: int):
                 emberek[index].keresett_gyerek_felso_hatar = int(uj)
     kiiras()
 
-    
-def matcheim(bejelentkezve_index: int):
-    f = open('python/matching.csv', 'r', encoding = 'utf-8')
-    for sor in f:
-        pass
+
+
+def matching_frissites(bejelentkezve: Tarskereso):
+    f = open('python/matching.csv', 'w', encoding='utf-8')
+    for m in matching:
+        jobbra = ''
+        for j in m.jobbra_huzottak:
+            if j != '':
+                jobbra += str(j) + ','
+        if len(jobbra) > 0:
+            f.write(f'{m.vezeteknev};{m.keresztnev};{jobbra[0:-1]}\n')
+        else:
+            f.write(f'{m.vezeteknev};{m.keresztnev};\n')
     f.close()
+    emberek.clear()
+    matching.clear()
+    beolvasas()
+
+
+
+
+def matcheim(bejelentkezve_index: int):             # TODO
+    print('Emberek, akikkel match-eltél: ')
+    van = False
+    for i in matching[bejelentkezve_index].jobbra_huzottak:
+        if i != '':
+            if str(bejelentkezve_index+1) in matching[int(i)-1].jobbra_huzottak:
+                print(f'\t{matching[int(i)-1].vezeteknev} {matching[int(i)-1].keresztnev}')
+                van = True
+    if not van:
+        print('senki:(')
+    input('<ENTER>')
+
             
         
 
