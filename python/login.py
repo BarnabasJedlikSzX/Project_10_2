@@ -1,4 +1,4 @@
-from osztalyok import Tarskereso
+from osztalyok import *
 from loginAdatok import Data
 import os
 from random import randint
@@ -9,6 +9,7 @@ userAdatok = []
 login: Data = None
 emberek: list[Tarskereso] = []
 infok: list[Data] = []
+matchek: list[Match] = []
 
 def login():
     os.system('cls')
@@ -105,7 +106,6 @@ def regisztracio():
         f.write(f'{e.vezeteknev};{e.keresztnev};{e.kor};{e.tavolsag_toled};{int(e.nem)};{int(e.keresett_nem)};{e.keresett_kor_also_hatar};{e.keresett_kor_felso_hatar};{e.gyerekek};{e.keresett_gyerek_felso_hatar};{e.keresett_gyerek_also_hatar};{e.szakma};{e.teloszam}\n')
     f.write(f'{userAdatok[0]};{userAdatok[1]};{userAdatok[2]};{userAdatok[3]};{userAdatok[4]};{userAdatok[5]};{userAdatok[6]};{userAdatok[7]};{userAdatok[8]};{userAdatok[9]};{userAdatok[10]};{userAdatok[11]};{userAdatok[12]}\n')
     f.close()
-    userAdatok.clear()
     f = open('python/login.csv', 'r', encoding='utf-8')
     for sor in f:
         infok.append(Data(sor))
@@ -115,6 +115,25 @@ def regisztracio():
         f.write(f'{i.felhasznalonev};{i.jelszo}\n')
     f.write(f'{felhasznalonev};{rejtettJelszo}\n')
     f.close()
+
+    f = open('python/matching.csv', 'r', encoding='utf-8')
+    for sor in f:
+        matchek.append(Match(sor))
+    f.close()
+
+    f = open('python/matching.csv', 'w', encoding='utf-8')
+    for m in matchek:
+        jobbra = ''
+        for j in m.jobbra_huzottak:
+            if j != '':
+                jobbra += str(j) + ','
+        if len(jobbra) > 0:
+            f.write(f'{m.vezeteknev};{m.keresztnev};{jobbra[0:-1]}\n')
+        else:
+            f.write(f'{m.vezeteknev};{m.keresztnev};\n')
+    f.write(f'{userAdatok[0]};{userAdatok[1]};\n')
+    f.close()
+    userAdatok.clear()
     input('<ENTER>')
     
 def login_feltoltes():

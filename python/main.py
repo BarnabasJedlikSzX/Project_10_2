@@ -1,5 +1,5 @@
 from osztalyok import *
-# from login import *
+from login import *
 from random import randint
 import os
 
@@ -8,22 +8,17 @@ matching: list[Match] = []
 
 
 def main():
-    beolvasas()
-    '''valasztas = ''
+    valasztas = ''
+    bejelentkezve_index = -1
     while valasztas != 'B' and valasztas != 'R':
         valasztas = input('Bejelentkezés(B) / Regisztráció(R): ')
     if valasztas == 'B':
-        login()
+        bejelentkezve_index = login()
     else:
-        regisztracio()'''
-    vezeteknev = input()
-    keresztnev = input()
-    kilep = False
-    bejelentkezve_index = 0
-    for i in range(0, len(emberek)):
-        if emberek[i].keresztnev == keresztnev and emberek[i].vezeteknev == vezeteknev:
-            bejelentkezve_index = i
-            break
+        regisztracio()
+    beolvasas()
+    if bejelentkezve_index == -1:
+        bejelentkezve_index = len(emberek)-1
     opcio = ''
     while opcio != '0':
         os.system('cls')
@@ -66,7 +61,7 @@ def lehet(szemely: Tarskereso, jelenlegi: Tarskereso):
         return False
     return True
 
-
+ 
 
 def emberek_ajanlasa(bejelentkezve: Tarskereso, bejelentkezve_index: int):
     kilep = False
@@ -77,15 +72,14 @@ def emberek_ajanlasa(bejelentkezve: Tarskereso, bejelentkezve_index: int):
         while not lehet(kovetkezo, bejelentkezve) and index < len(emberek)-1:
             index += 1
             kovetkezo = emberek[index]
-        if index == len(emberek)-1 and not van_ember:
+        if index == len(emberek)-1 and not lehet(kovetkezo, bejelentkezve) and not van_ember:
             print('Sajnos nincs számodra megfelelő felhasználó :( (próbáld meg változtatni a szűrőket)')
             input('<ENTER>')
             kilep = True
-        elif index == len(emberek)-1 and valasztas != '':
+        elif index == len(emberek)-1 and not lehet(kovetkezo, bejelentkezve) and van_ember:
             index = 0
         else:
             van_ember = True
-            index += 1
             os.system('cls')
             print(f'{kovetkezo.vezeteknev} {kovetkezo.keresztnev}')
             print(f'Kor: {kovetkezo.kor}')
@@ -98,11 +92,15 @@ def emberek_ajanlasa(bejelentkezve: Tarskereso, bejelentkezve_index: int):
             if valasztas == 'k':
                 kilep = True
             elif valasztas == 'j':
-                if str(index) not in matching[bejelentkezve_index].jobbra_huzottak:
-                    matching[bejelentkezve_index].jobbra_huzottak.append(str(index))
+                if str(index+1) not in matching[bejelentkezve_index].jobbra_huzottak:
+                    matching[bejelentkezve_index].jobbra_huzottak.append(str(index+1))
             else:
-                if str(index) in matching[bejelentkezve_index].jobbra_huzottak:
-                    matching[bejelentkezve_index].jobbra_huzottak.remove(str(index))
+                if str(index+1) in matching[bejelentkezve_index].jobbra_huzottak:
+                    matching[bejelentkezve_index].jobbra_huzottak.remove(str(index+1))
+            if index == len(emberek)-1:
+                index = 0
+            else:
+                index += 1
     
     matching_frissites(bejelentkezve)
 
@@ -169,6 +167,7 @@ def matching_frissites(bejelentkezve: Tarskereso):
 
 
 def matcheim(bejelentkezve_index: int):             # TODO
+    os.system('cls')
     print('Emberek, akikkel match-eltél: ')
     van = False
     for i in matching[bejelentkezve_index].jobbra_huzottak:
