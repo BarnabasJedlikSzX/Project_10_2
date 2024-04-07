@@ -42,8 +42,6 @@ def main():
                 szures(bejelentkezve_index)
             case '3':
                 matcheim(bejelentkezve_index)
-            case '0':
-                pass
             
         
             
@@ -93,6 +91,7 @@ def emberek_ajanlasa(bejelentkezve: Tarskereso, bejelentkezve_index: int):
             print(f'Kor: {kovetkezo.kor}')
             print(f'Távolság tőled: {kovetkezo.tavolsag_toled} km')
             print(f'Gyerekek száma: {kovetkezo.gyerekek}')
+            print(f'Foglalkozás: {kovetkezo.szakma}')
             valasztas = input('\nBalra húz(B/b) / Jobbra húz(J/j) / Kilép(K/k): ').lower()
             while valasztas != 'b' and valasztas != 'j' and valasztas != 'k':
                 valasztas = input('\nBalra húz(B) / Jobbra húz(J) / Kilép(K): ').lower()
@@ -175,7 +174,7 @@ def matcheim(bejelentkezve_index: int):             # TODO
     for i in matching[bejelentkezve_index].jobbra_huzottak:
         if i != '':
             if str(bejelentkezve_index+1) in matching[int(i)-1].jobbra_huzottak:
-                print(f'\t{matching[int(i)-1].vezeteknev} {matching[int(i)-1].keresztnev}')
+                print(f'\t{matching[int(i)-1].vezeteknev} {matching[int(i)-1].keresztnev} - {emberek[int(i)-1].teloszam}')
                 van = True
     if not van:
         print('senki:(')
@@ -185,38 +184,21 @@ def matcheim(bejelentkezve_index: int):             # TODO
         
 
 def randomolas():
-    f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv', 'r', encoding='utf-8')
-    vezeteknevek: list[str] = []
-    keresztnevek: list[str] = []
-    korok: list[str] = []
-    nemek: list[str] = []
-    keresett_nemek: list[str] = []
-    tavolsagok: list[str] = []
-    for sor in f:
-        adatok = sor.strip().split(';')
-        vezeteknevek.append(adatok[0])
-        keresztnevek.append(adatok[1])
-        korok.append(adatok[2])
-        tavolsagok.append(adatok[3])
-        nemek.append(adatok[4])
-        keresett_nemek.append(adatok[5])
-    f.close()
+    szakmak = ['könyvelő', 'pultos', 'séf', 'programozó', 'cégvezető', 'parlamenti képviselő', 'ügyvéd', 'pedagógus', 'újságíró', 'bolti eladó', 'buszvezető', 'autóvezetés-oktató', 'lakberendező', 'műsorvezető', 'építészmérnök', 'szállodai recepciós', 'nincs', 'árufeltöltő', 'közmunkás', 'vállalkozó']
     f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv', 'w', encoding='utf-8')
-    for i in range(0, 50):
-        if int(korok[i]) > 25:
-            gyerekek = randint(1, 4)
-        else:
-            gyerekek = 0
-        keresett_also = randint(0, 4)
-        keresett_felso = randint(keresett_also, 4)
-
-        f.write(f'{vezeteknevek[i]};{keresztnevek[i]};{korok[i]};{tavolsagok[i]};{nemek[i]};{keresett_nemek[i]};{max(18, int(korok[i])-7)};{min(70, int(korok[i])+7)};{gyerekek};{keresett_felso};{keresett_also}\n')
+    for e in emberek:
+        telefonszam = ''
+        print(e.keresett_kor_felso_hatar)
+        for i in range(9):
+            telefonszam += str(randint(0,9))
+        f.write(f'{e.vezeteknev};{e.keresztnev};{e.kor};{e.tavolsag_toled};{e.nem};{e.keresett_nem};{e.keresett_kor_also_hatar};{e.keresett_kor_felso_hatar};{e.gyerekek};{e.keresett_gyerek_felso_hatar};{e.keresett_gyerek_also_hatar};{szakmak[randint(0,19)]};06{telefonszam}\n')
+    f.close()
 
 def kiiras():
     f = open('python/szingli_anyukak_es_apukak_es_gyerekek.csv', 'w', encoding='utf-8')
 
     for e in emberek:
-        f.write(f'{e.vezeteknev};{e.keresztnev};{e.kor};{e.tavolsag_toled};{int(e.nem)};{int(e.keresett_nem)};{e.keresett_kor_also_hatar};{e.keresett_kor_felso_hatar};{e.gyerekek};{e.keresett_gyerek_felso_hatar};{e.keresett_gyerek_also_hatar}\n')
+        f.write(f'{e.vezeteknev};{e.keresztnev};{e.kor};{e.tavolsag_toled};{int(e.nem)};{int(e.keresett_nem)};{e.keresett_kor_also_hatar};{e.keresett_kor_felso_hatar};{e.gyerekek};{e.keresett_gyerek_felso_hatar};{e.keresett_gyerek_also_hatar};{e.szakma};{e.teloszam}\n')
 
     f.close()
     
@@ -230,7 +212,7 @@ def login_feltoltes():
 def matching_feltoltes():
     f = open('python/matching.csv', 'w', encoding='utf-8')
     for e in emberek:
-        f.write(f'{e.vezeteknev};{e.keresztnev};\n')
+        f.write(f'{e.vezeteknev};{e.keresztnev};{e.teloszam};\n')
     f.close()
 
 main()
