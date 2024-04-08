@@ -1,0 +1,72 @@
+body {
+    background: rgb(166, 0, 255);
+    background: linear-gradient(100deg, rgba(166, 0, 255, 1) 0%, rgba(252, 1, 1, 1) 100%);
+}
+
+.firstCard {
+    background-color: white;
+    width: 100vh;
+    height: 30vh;
+    border-radius: 30px;
+    font-weight: bold;
+}
+
+h3 {
+    font-weight: bold;
+}
+
+.secondCard {
+    background-color: white;
+    width: 100vh;
+    height: 30vh;
+    border-radius: 30px;
+    font-weight: bold;
+}
+
+.registrationList {
+    padding-left: 10vh;
+}
+
+.thirdCard {
+    background-color: white;
+    width: 100vh;
+    height: 14vh;
+    border-radius: 30px;
+    font-weight: bold;
+}
+
+h4 {
+    font-weight: bold;
+}
+
+.kezeles {
+    padding-right: 5vh;
+}
+
+.fourthCard {
+    background-color: white;
+    width: 100vh;
+    height: 18vh;
+    border-radius: 30px;
+    font-weight: bold;
+}
+
+/* .mukodeseHref {
+    background-color: white;
+    height: 70vh;
+    width: 20vh;
+    margin-top: 10vh;
+    margin-left: 10vh;
+    margin-right: -30vh;
+    border-radius: 30px;
+}
+
+.rolunkHref {
+    background-color: white;
+    height: 70vh;
+    width: 20vh;
+    margin-top: 10vh;
+    margin-right: 10vh;
+    margin-left: -30vh;
+    border-radius: 30px;
+} */
