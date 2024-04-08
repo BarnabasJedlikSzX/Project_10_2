@@ -9,6 +9,7 @@ body {
     height: 30vh;
     border-radius: 30px;
     font-weight: bold;
+    display: inline-block
 }
 
 h3 {
@@ -21,10 +22,26 @@ h3 {
     height: 30vh;
     border-radius: 30px;
     font-weight: bold;
+    display: inline-block
 }
 
 .registrationList {
     padding-left: 10vh;
+}
+
+.text-bg{
+    background-color: white;
+    border-radius: 10%;
+    padding: 5%;
+}
+
+.text-padding{
+    padding: 1%;
+}
+
+.kezdoszoveg{
+    font-weight: bold;
+    font-size: 30pt;
 }
 
 .thirdCard {
@@ -33,6 +50,7 @@ h3 {
     height: 14vh;
     border-radius: 30px;
     font-weight: bold;
+    display: inline-block
 }
 
 h4 {
@@ -49,6 +67,7 @@ h4 {
     height: 18vh;
     border-radius: 30px;
     font-weight: bold;
+    display: inline-block
 }
 
 /* .mukodeseHref {

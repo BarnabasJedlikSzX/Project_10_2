@@ -8,29 +8,27 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">༼ つ ◕_◕ ༽つ társkereső</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="index.html">༼ つ ◕_◕ ༽つ társkereső</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 linkek">
           <li class="nav-item">
             <a class="nav-link" href="index.html">Kezdőlap</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="mukodes.html">Működése</a>
+            <a class="nav-link" aria-current="page" href="mukodes.html">Működése</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="rolunk.html">Rólunk</a>
           </li>
         </ul>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <h1 class="text-center">Működés</h1>
-
-  <div class="accordion px-5" id="accordionExample">
+  <div class="accordion p-5" id="accordionExample">
     <div class="accordion-item">
       <h2 class="accordion-header" id="headingOne">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -76,7 +74,7 @@
     </div>
   </div>
 
-  <div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
+  <div id="carouselExampleRide" class="carousel slide p-5" data-bs-ride="true">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="login_panel.png" class="d-block w-100" alt="...">
